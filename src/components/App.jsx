@@ -20,16 +20,11 @@ export default class App extends Component {
   componentDidMount() {
     document.title = 'HW-2 Phonebook';
   }
-
-  // Add contact
   handleAddContact = contact => {
     const { contacts } = this.state;
     const { name } = contact;
 
-    // Verify contact
     if (contacts.find(contact => contact.name === name)) {
-      // alert() було використано згідно ДЗ, крок 5.
-      // alert(`${name} is already in contacts`);
       Notify.failure(`${name} is already in contacts`);
       return;
     }
@@ -39,7 +34,7 @@ export default class App extends Component {
     });
   };
 
-  // Delete contact
+ 
   handleDeleteContact = id => {
     this.setState(prevState => {
       return {
@@ -48,22 +43,31 @@ export default class App extends Component {
     });
   };
 
-  // Add filter
+
   handleFilter = e => {
     this.setState({ filter: e.target.value });
   };
 
-  render() {
+ 
+  getFilteredContacts = () => {
     const { contacts, filter } = this.state;
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter.toLowerCase().trim())
+    );
+  };
+
+  render() {
+    const { filter } = this.state;
+    const filteredContacts = this.getFilteredContacts();
 
     return (
       <div>
         <h1>Phonebook</h1>
         <ContactForm onAddContact={this.handleAddContact} />
         <h2>Contacts</h2>
-        <Filter onFilter={this.handleFilter} filter={this.state.filter} />
+        <Filter onFilter={this.handleFilter} filter={filter} />
         <ContactList
-          contacts={contacts}
+          contacts={filteredContacts}
           filter={filter}
           onDeleteContact={this.handleDeleteContact}
         />
@@ -71,3 +75,4 @@ export default class App extends Component {
     );
   }
 }
+
