@@ -68,7 +68,6 @@ export default class App extends Component {
         <Filter onFilter={this.handleFilter} filter={filter} />
         <ContactList
           contacts={filteredContacts}
-          filter={filter}
           onDeleteContact={this.handleDeleteContact}
         />
       </div>
